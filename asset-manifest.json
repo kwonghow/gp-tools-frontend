@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/gp-tools-frontend/static/css/main.7bd7553f.chunk.css",
+    "main.js": "/gp-tools-frontend/static/js/main.88a23d8d.chunk.js",
+    "main.js.map": "/gp-tools-frontend/static/js/main.88a23d8d.chunk.js.map",
+    "runtime~main.js": "/gp-tools-frontend/static/js/runtime~main.5400d48a.js",
+    "runtime~main.js.map": "/gp-tools-frontend/static/js/runtime~main.5400d48a.js.map",
+    "static/js/2.f9c4ca9d.chunk.js": "/gp-tools-frontend/static/js/2.f9c4ca9d.chunk.js",
+    "static/js/2.f9c4ca9d.chunk.js.map": "/gp-tools-frontend/static/js/2.f9c4ca9d.chunk.js.map",
+    "index.html": "/gp-tools-frontend/index.html",
+    "precache-manifest.4e41de26b0c4e5c551e585522705c1cc.js": "/gp-tools-frontend/precache-manifest.4e41de26b0c4e5c551e585522705c1cc.js",
+    "service-worker.js": "/gp-tools-frontend/service-worker.js",
+    "static/css/main.7bd7553f.chunk.css.map": "/gp-tools-frontend/static/css/main.7bd7553f.chunk.css.map"
+  }
+}
