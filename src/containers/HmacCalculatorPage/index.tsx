@@ -2,6 +2,8 @@ import CryptoJS from 'crypto-js';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { StringParam, useQueryParams } from 'use-query-params';
 
+import './index.css';
+
 const generateHmacSignature = (
   method: string,
   headerContentType: string,
@@ -10,10 +12,6 @@ const generateHmacSignature = (
   requestBody: string,
   partnerSecret: string,
 ) => {
-  if (!partnerSecret) {
-    return '';
-  }
-
   if (method === 'GET' || !requestBody) {
     requestBody = '';
   }
@@ -33,8 +31,14 @@ const generateHmacSignature = (
     CryptoJS.HmacSHA256(requestData, partnerSecret),
   );
 
-  return hmacDigest;
+  return { hashedPayload, requestData, hmacDigest };
 };
+
+interface Result {
+  hashedPayload: string;
+  hmacDigest: string;
+  requestData: string;
+}
 
 const HmacCalculatorPage = () => {
   const [params, setParams] = useQueryParams({
@@ -46,7 +50,11 @@ const HmacCalculatorPage = () => {
     requestUrl: StringParam,
   });
 
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState<Result>({
+    hashedPayload: '',
+    hmacDigest: '',
+    requestData: '',
+  });
 
   useEffect(() => {
     setParams({
@@ -61,6 +69,10 @@ const HmacCalculatorPage = () => {
   }, []);
 
   const computeResults = useCallback(() => {
+    if (!params.partnerSecret) {
+      return;
+    }
+
     setResult(
       generateHmacSignature(
         params.method as string,
@@ -195,7 +207,18 @@ const HmacCalculatorPage = () => {
         <hr />
         <h3>Result</h3>
         <pre>
-          <code>{result}</code>
+          <code>
+            HMAC: <span className="hmac">{result.hmacDigest}</span>
+          </code>
+          <br />
+          <br />
+          <code>
+            Hashed payload:{' '}
+            {params.method === 'GET' ? 'N/A' : result.hashedPayload}
+          </code>
+          <br />
+          <br />
+          <code>Request data: {result.requestData}</code>
         </pre>
       </form>
     </>
