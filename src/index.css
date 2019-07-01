@@ -11,3 +11,21 @@ code, .monospace {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.error {
+  color: red;
+  font-size: 13px;
+}
+
+.result {
+  background-color: #eeeeee;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  color: darkred;
+  display: inline-block;
+  font-weight: bold;
+  margin: 2px 0;
+  padding: 6px;
+}
+
+

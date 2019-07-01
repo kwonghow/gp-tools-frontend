@@ -2,8 +2,6 @@ import CryptoJS from 'crypto-js';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { StringParam, useQueryParams } from 'use-query-params';
 
-import './index.css';
-
 const generateHmacSignature = (
   method: string,
   headerContentType: string,
@@ -227,7 +225,7 @@ const HmacCalculatorPage = () => {
           <code>
             HMAC:{' '}
             {result.hmacDigest && (
-              <span className="hmac">{result.hmacDigest}</span>
+              <span className="result">{result.hmacDigest}</span>
             )}
           </code>
           <br />
