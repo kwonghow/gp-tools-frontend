@@ -74,6 +74,7 @@ const HmacCalculatorPage = () => {
     }
 
     setErrors([]);
+
     setResult(
       generateHmacSignature(
         params.method as string,

@@ -96,7 +96,9 @@ const PopSignaturePage = () => {
     computeResults();
   }, [computeResults, params]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const newParams = { ...params, [e.target.name]: e.target.value };
     setParams(newParams, 'push');
   };
@@ -120,7 +122,7 @@ const PopSignaturePage = () => {
       <form>
         <div className="form-group row">
           <label className="col-form-label col-sm-4" htmlFor="client-secret">
-            Secret
+            Client Secret
           </label>
           <div className="col-sm-8">
             <input
@@ -154,12 +156,12 @@ const PopSignaturePage = () => {
             Access Token
           </label>
           <div className="col-sm-8">
-            <input
-              className="form-control"
+            <textarea
+              className="form-control monospace"
               id="access-token"
               name="accessToken"
               onChange={handleChange}
-              type="text"
+              rows={3}
               value={params.accessToken}
             />
           </div>
@@ -181,7 +183,9 @@ const PopSignaturePage = () => {
         <h3>Result</h3>
         <pre>
           <code>
-            Signature: {result && <span className="result">{result}</span>}
+            Signature:
+            <br />
+            {result && <span className="result">{result}</span>}
           </code>
         </pre>
       </form>
