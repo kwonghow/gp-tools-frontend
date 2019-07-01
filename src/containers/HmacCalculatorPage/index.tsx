@@ -56,6 +56,8 @@ const HmacCalculatorPage = () => {
     requestData: '',
   });
 
+  const [errors, setErrors] = useState<string[]>([]);
+
   useEffect(() => {
     setParams({
       contentType: params.contentType || 'application/json',
@@ -73,6 +75,7 @@ const HmacCalculatorPage = () => {
       return;
     }
 
+    setErrors([]);
     setResult(
       generateHmacSignature(
         params.method as string,
@@ -94,6 +97,17 @@ const HmacCalculatorPage = () => {
   ) => {
     const newParams = { ...params, [e.target.name]: e.target.value };
     setParams(newParams, 'push');
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!params.partnerSecret) {
+      setErrors([...errors, 'Please enter secret.']);
+      return;
+    }
+
+    computeResults();
   };
 
   return (
@@ -199,11 +213,14 @@ const HmacCalculatorPage = () => {
         <button
           className="btn btn-primary"
           id="submit-btn"
-          onClick={computeResults}
+          onClick={handleSubmit}
           type="button"
         >
           Calculate HMAC
         </button>
+        {errors.map(error => (
+          <div className="error">{error}</div>
+        ))}
         <hr />
         <h3>Result</h3>
         <pre>

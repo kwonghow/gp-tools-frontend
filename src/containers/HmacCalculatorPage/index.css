@@ -8,3 +8,8 @@
   margin: 2px 0;
   padding: 6px;
 }
+
+.error {
+  color: red;
+  font-size: 13px;
+}
