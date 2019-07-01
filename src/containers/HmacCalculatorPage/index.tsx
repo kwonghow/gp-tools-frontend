@@ -208,7 +208,10 @@ const HmacCalculatorPage = () => {
         <h3>Result</h3>
         <pre>
           <code>
-            HMAC: <span className="hmac">{result.hmacDigest}</span>
+            HMAC:{' '}
+            {result.hmacDigest && (
+              <span className="hmac">{result.hmacDigest}</span>
+            )}
           </code>
           <br />
           <br />
@@ -218,7 +221,11 @@ const HmacCalculatorPage = () => {
           </code>
           <br />
           <br />
-          <code>Request data: {result.requestData}</code>
+          <code>
+            Request data:
+            <br />
+            {result.requestData}
+          </code>
         </pre>
       </form>
     </>
