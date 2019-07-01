@@ -9,14 +9,17 @@ import {
 import { QueryParamProvider } from 'use-query-params';
 
 import HmacCalculatorPage from './containers/HmacCalculatorPage';
+import PopSignaturePage from './containers/PopSignaturePage';
 
 const App = () => {
   return (
     <Router basename="/gp-tools-frontend">
       <QueryParamProvider ReactRouterRoute={Route}>
-        <Link to="/hmac">HMAC Calculator</Link> | Pop Signature Calculator
+        <Link to="/hmac">HMAC Calculator</Link> |{' '}
+        <Link to="/pop-signature">POP Signature Calculator</Link>
         <Switch>
           <Route path="/hmac" component={HmacCalculatorPage} />
+          <Route path="/pop-signature" component={PopSignaturePage} />
           <Redirect to="/hmac" />
         </Switch>
       </QueryParamProvider>
