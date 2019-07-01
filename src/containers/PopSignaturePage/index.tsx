@@ -100,7 +100,7 @@ const PopSignaturePage = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const newParams = { ...params, [e.target.name]: e.target.value };
-    setParams(newParams, 'push');
+    setParams(newParams);
   };
 
   const handleSubmit = (e: React.FormEvent) => {

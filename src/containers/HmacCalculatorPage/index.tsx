@@ -95,7 +95,7 @@ const HmacCalculatorPage = () => {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
     const newParams = { ...params, [e.target.name]: e.target.value };
-    setParams(newParams, 'push');
+    setParams(newParams);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
