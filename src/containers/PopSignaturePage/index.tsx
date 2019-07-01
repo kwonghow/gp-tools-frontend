@@ -161,7 +161,7 @@ const PopSignaturePage = () => {
               id="access-token"
               name="accessToken"
               onChange={handleChange}
-              rows={3}
+              rows={13}
               value={params.accessToken}
             />
           </div>
