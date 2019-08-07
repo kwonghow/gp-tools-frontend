@@ -214,6 +214,16 @@ const HmacCalculatorPage = () => {
             {result.requestData}
           </code>
         </pre>
+        <h3>CURL</h3>
+        <pre>
+          <code>
+              curl -X '{params.method}' '&lt;HOST&gt;{params.requestUrl}' \<br />
+                -H 'Authorization: &lt;PARTNER_ID&gt;:{result.hmacDigest}' \<br />
+                -H 'Content-Type: {params.contentType}' \<br />
+                -H 'Date: {params.headerDate}' \<br />
+                -d '{params.requestBody}'
+            </code>
+        </pre>
       </form>
     </>
   );
