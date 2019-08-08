@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { StringParam, useQueryParams } from 'use-query-params';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import generateHmacSignature from '../../utils/generateHmacSignature';
 
@@ -26,6 +27,7 @@ const HmacCalculatorPage = () => {
   });
 
   const [errors, setErrors] = useState<string[]>([]);
+  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
 
   useEffect(() => {
     setParams({
@@ -79,6 +81,22 @@ const HmacCalculatorPage = () => {
 
     computeResults();
   };
+
+  const handleCopyClick = () => {
+    setCopiedToClipboard(true);
+
+    setTimeout(() => {
+      setCopiedToClipboard(false);
+    }, 2000);
+  };
+
+  const curlCommand = `
+curl -X '${params.method}' '<HOST>${params.requestUrl}' \\
+  -H 'Authorization: <PARTNER_ID>:${result.hmacDigest}' \\
+  -H 'Content-Type: ${params.contentType}' \\
+  -H 'Date: ${params.headerDate}' \\
+  -d '${params.method === 'GET' ? '' : params.requestBody}'
+`;
 
   return (
     <>
@@ -214,15 +232,20 @@ const HmacCalculatorPage = () => {
             {result.requestData}
           </code>
         </pre>
-        <h3>CURL</h3>
+        <h3>
+          CURL{' '}
+          <CopyToClipboard onCopy={handleCopyClick} text={curlCommand}>
+            <button className="btn btn-link" onClick={e => e.preventDefault()}>
+              {copiedToClipboard ? 'Copied!' : 'Copy to clipboard'}
+            </button>
+          </CopyToClipboard>
+        </h3>
         <pre>
-          <code>
-              curl -X '{params.method}' '&lt;HOST&gt;{params.requestUrl}' \<br />
-                -H 'Authorization: &lt;PARTNER_ID&gt;:{result.hmacDigest}' \<br />
-                -H 'Content-Type: {params.contentType}' \<br />
-                -H 'Date: {params.headerDate}' \<br />
-                -d '{params.method === 'GET' ? '' : params.requestBody}'
-            </code>
+          <code
+            dangerouslySetInnerHTML={{
+              __html: curlCommand.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+            }}
+          />
         </pre>
       </form>
     </>
