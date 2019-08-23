@@ -215,7 +215,9 @@ curl -X '${params.method}' '<HOST>${params.requestUrl}' \\
           <code>
             HMAC:{' '}
             {result.hmacDigest && (
-              <span className="result">{result.hmacDigest}</span>
+              <span className="break-word-container result">
+                {result.hmacDigest}
+              </span>
             )}
           </code>
           <br />

@@ -18,16 +18,19 @@ code,
   font-size: 13px;
 }
 
-.result {
+.break-word-container {
   background-color: #eeeeee;
   border: 1px solid #cccccc;
   border-radius: 4px;
-  color: darkred;
   display: inline-block;
-  font-weight: bold;
   max-width: 80%;
   margin: 2px 0;
   padding: 6px;
   overflow-wrap: break-word;
   white-space: normal;
+}
+
+.result {
+  color: darkred;
+  font-weight: bold;
 }
