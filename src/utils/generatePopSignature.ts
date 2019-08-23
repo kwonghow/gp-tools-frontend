@@ -1,5 +1,10 @@
 import CryptoJS from 'crypto-js';
 
+export interface Payload {
+  time_since_epoch: number;
+  sig: string;
+}
+
 const base64UrlEncode = (value: string) =>
   value
     .toString()
@@ -21,12 +26,16 @@ export default function generatePopSignature(
     CryptoJS.HmacSHA256(message, clientSecret),
   );
 
-  const payload = {
+  const payload: Payload = {
     time_since_epoch: timestamp,
     sig: base64UrlEncode(signature),
   };
 
   const payloadBytes = JSON.stringify(payload);
 
-  return base64UrlEncode(Buffer.from(payloadBytes).toString('base64'));
+  const popSignature = base64UrlEncode(
+    Buffer.from(payloadBytes).toString('base64'),
+  );
+
+  return { message, payload, popSignature };
 }

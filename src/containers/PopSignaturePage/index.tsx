@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useQueryParams, StringParam } from 'use-query-params';
 
-import generatePopSignature from '../../utils/generatePopSignature';
+import generatePopSignature, {
+  Payload,
+} from '../../utils/generatePopSignature';
+
+interface Result {
+  message: string;
+  payload: Payload;
+  popSignature: string;
+}
 
 const PopSignaturePage = () => {
   const [params, setParams] = useQueryParams({
@@ -10,7 +18,12 @@ const PopSignaturePage = () => {
     clientSecret: StringParam,
   });
 
-  const [result, setResult] = useState<string>('');
+  const [result, setResult] = useState<Result>({
+    message: '',
+    payload: { sig: '', time_since_epoch: 0 },
+    popSignature: '',
+  });
+
   const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
@@ -155,8 +168,30 @@ const PopSignaturePage = () => {
           <code>
             Signature:
             <br />
-            {result && <span className="result">{result}</span>}
+            {result.popSignature && (
+              <span className="break-word-container result">
+                {result.popSignature}
+              </span>
+            )}
           </code>
+          <br />
+          <br />
+          <code>
+            Message:
+            <br />
+            {result.message && (
+              <span className="break-word-container">{result.message}</span>
+            )}
+          </code>
+          <br />
+          <br />
+          <code>
+            time_since_epoch:{' '}
+            {result.payload ? result.payload.time_since_epoch : ''}
+          </code>
+          <br />
+          <br />
+          <code>sig: {result.payload ? result.payload.sig : ''}</code>
         </pre>
       </form>
     </>
