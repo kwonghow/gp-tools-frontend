@@ -132,6 +132,7 @@ curl -X '${params.method}' '<HOST>${params.requestUrl}' \\
             >
               <option value="POST">POST</option>
               <option value="GET">GET</option>
+              <option value="PUT">PUT</option>
             </select>
           </div>
         </div>
