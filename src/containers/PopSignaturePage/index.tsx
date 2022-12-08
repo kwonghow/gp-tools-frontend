@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useQueryParams, StringParam } from 'use-query-params';
+import { useQueryParams, StringParam, withDefault } from 'use-query-params';
 
 import generatePopSignature, {
   Payload,
@@ -13,9 +13,9 @@ interface Result {
 
 const PopSignaturePage = () => {
   const [params, setParams] = useQueryParams({
-    accessToken: StringParam,
-    date: StringParam,
-    clientSecret: StringParam,
+    accessToken: withDefault(StringParam, ''),
+    date: withDefault(StringParam, new Date().toUTCString()),
+    clientSecret: withDefault(StringParam, ''),
   });
 
   const [result, setResult] = useState<Result>({
@@ -25,15 +25,6 @@ const PopSignaturePage = () => {
   });
 
   const [errors, setErrors] = useState<string[]>([]);
-
-  useEffect(() => {
-    setParams({
-      accessToken: params.accessToken || '',
-      clientSecret: params.clientSecret || '',
-      date: params.date || new Date().toUTCString(),
-    });
-    // eslint-disable-next-line
-  }, []);
 
   const validate = useCallback(() => {
     const rules: Array<{
@@ -70,8 +61,8 @@ const PopSignaturePage = () => {
       generatePopSignature(
         params.accessToken as string,
         params.date as string,
-        params.clientSecret as string,
-      ),
+        params.clientSecret as string
+      )
     );
   }, [errors, params, validate]);
 
@@ -80,7 +71,7 @@ const PopSignaturePage = () => {
   }, [computeResults, params]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const newParams = { ...params, [e.target.name]: e.target.value };
     setParams(newParams);
@@ -157,7 +148,7 @@ const PopSignaturePage = () => {
         >
           Calculate HMAC
         </button>
-        {errors.map(error => (
+        {errors.map((error) => (
           <div className="error" key={error}>
             {error}
           </div>

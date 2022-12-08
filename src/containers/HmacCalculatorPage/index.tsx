@@ -1,5 +1,11 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { StringParam, useQueryParams } from 'use-query-params';
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { StringParam, useQueryParams, withDefault } from 'use-query-params';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import generateHmacSignature from '../../utils/generateHmacSignature';
@@ -12,12 +18,15 @@ interface Result {
 
 const HmacCalculatorPage = () => {
   const [params, setParams] = useQueryParams({
-    contentType: StringParam,
-    headerDate: StringParam,
-    method: StringParam,
-    partnerSecret: StringParam,
-    requestBody: StringParam,
-    requestUrl: StringParam,
+    contentType: withDefault(StringParam, 'application/json'),
+    headerDate: withDefault(StringParam, new Date().toUTCString()),
+    method: withDefault(StringParam, 'POST'),
+    partnerSecret: withDefault(StringParam, ''),
+    requestBody: withDefault(
+      StringParam,
+      '{"foo":"bar","baz":"lol","kek":168}'
+    ),
+    requestUrl: withDefault(StringParam, '/request-path'),
   });
 
   const [result, setResult] = useState<Result>({
@@ -29,17 +38,6 @@ const HmacCalculatorPage = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [copiedToClipboard, setCopiedToClipboard] = useState(false);
 
-  useEffect(() => {
-    setParams({
-      contentType: params.contentType || 'application/json',
-      headerDate: params.headerDate || new Date().toUTCString(),
-      method: params.method || 'POST',
-      partnerSecret: params.partnerSecret || '',
-      requestBody: params.requestBody || `{"foo":"bar","baz":"lol","kek":168}`,
-      requestUrl: params.requestUrl || '/relative-path',
-    });
-    // eslint-disable-next-line
-  }, []);
 
   const computeResults = useCallback(() => {
     if (!params.partnerSecret) {

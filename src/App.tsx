@@ -6,6 +6,8 @@ import {
   BrowserRouter as Router,
   Switch,
 } from 'react-router-dom';
+import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
+
 import { QueryParamProvider } from 'use-query-params';
 
 import HmacCalculatorPage from './containers/HmacCalculatorPage';
@@ -14,7 +16,7 @@ import PopSignaturePage from './containers/PopSignaturePage';
 const App = () => {
   return (
     <Router basename="/gp-tools-frontend">
-      <QueryParamProvider ReactRouterRoute={Route}>
+      <QueryParamProvider adapter={ReactRouter5Adapter}>
         <Link to="/hmac">HMAC Calculator</Link> |{' '}
         <Link to="/pop-signature">POP Signature Calculator</Link>
         <Switch>
