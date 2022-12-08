@@ -1,15 +1,13 @@
 {
   "files": {
-    "main.css": "/gp-tools-frontend/static/css/main.275c3a84.chunk.css",
-    "main.js": "/gp-tools-frontend/static/js/main.4da0012b.chunk.js",
-    "main.js.map": "/gp-tools-frontend/static/js/main.4da0012b.chunk.js.map",
-    "runtime~main.js": "/gp-tools-frontend/static/js/runtime~main.5400d48a.js",
-    "runtime~main.js.map": "/gp-tools-frontend/static/js/runtime~main.5400d48a.js.map",
-    "static/js/2.fd0d20a0.chunk.js": "/gp-tools-frontend/static/js/2.fd0d20a0.chunk.js",
-    "static/js/2.fd0d20a0.chunk.js.map": "/gp-tools-frontend/static/js/2.fd0d20a0.chunk.js.map",
+    "main.css": "/gp-tools-frontend/static/css/main.a528ef2a.css",
+    "main.js": "/gp-tools-frontend/static/js/main.387fcd49.js",
     "index.html": "/gp-tools-frontend/index.html",
-    "precache-manifest.2a6acc30236659be62b534e7e814d2e8.js": "/gp-tools-frontend/precache-manifest.2a6acc30236659be62b534e7e814d2e8.js",
-    "service-worker.js": "/gp-tools-frontend/service-worker.js",
-    "static/css/main.275c3a84.chunk.css.map": "/gp-tools-frontend/static/css/main.275c3a84.chunk.css.map"
-  }
+    "main.a528ef2a.css.map": "/gp-tools-frontend/static/css/main.a528ef2a.css.map",
+    "main.387fcd49.js.map": "/gp-tools-frontend/static/js/main.387fcd49.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a528ef2a.css",
+    "static/js/main.387fcd49.js"
+  ]
 }
