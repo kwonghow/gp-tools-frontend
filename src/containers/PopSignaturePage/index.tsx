@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useQueryParams, StringParam, withDefault } from 'use-query-params';
 
 import generatePopSignature, {
@@ -27,10 +27,10 @@ const PopSignaturePage = () => {
   const [errors, setErrors] = useState<string[]>([]);
 
   const validate = useCallback(() => {
-    const rules: Array<{
+    const rules: {
       key: 'accessToken' | 'clientSecret';
       label: string;
-    }> = [
+    }[] = [
       { key: 'clientSecret', label: 'Secret' },
       { key: 'accessToken', label: 'Access Token' },
     ];
@@ -46,6 +46,8 @@ const PopSignaturePage = () => {
     return newErrors;
   }, [params]);
 
+  const dateInputRef = useRef<HTMLInputElement>(null);
+
   const computeResults = useCallback(() => {
     const newErrors = validate();
 
@@ -57,13 +59,21 @@ const PopSignaturePage = () => {
       return;
     }
 
-    setResult(
-      generatePopSignature(
-        params.accessToken as string,
-        params.date as string,
-        params.clientSecret as string
-      )
-    );
+    try {
+      setResult(
+        generatePopSignature(
+          params.accessToken as string,
+          params.date as string,
+          params.clientSecret as string
+        )
+      );
+    } catch (e) {
+      setResult({
+        message: String(e),
+        payload: { sig: '', time_since_epoch: 0 },
+        popSignature: '',
+      });
+    }
   }, [errors, params, validate]);
 
   useEffect(() => {
@@ -73,8 +83,7 @@ const PopSignaturePage = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const newParams = { ...params, [e.target.name]: e.target.value };
-    setParams(newParams);
+    setParams({ ...params, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -116,13 +125,26 @@ const PopSignaturePage = () => {
           </label>
           <div className="col-sm-8">
             <input
+              ref={dateInputRef}
               className="form-control"
               id="date"
               name="date"
+              required
               onChange={handleChange}
               type="text"
               value={params.date}
             />
+            <button
+              className="btn btn-link"
+              onClick={() => {
+                if (!dateInputRef.current) {
+                  return;
+                }
+                dateInputRef.current.value = new Date().toUTCString();
+              }}
+            >
+              Set date to now
+            </button>
           </div>
         </div>
         <div className="form-group row">
@@ -135,6 +157,7 @@ const PopSignaturePage = () => {
               id="access-token"
               name="accessToken"
               onChange={handleChange}
+              required
               rows={13}
               value={params.accessToken}
             />

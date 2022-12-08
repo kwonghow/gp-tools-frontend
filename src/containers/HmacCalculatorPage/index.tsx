@@ -38,6 +38,7 @@ const HmacCalculatorPage = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [copiedToClipboard, setCopiedToClipboard] = useState(false);
 
+  const headerDateRef = useRef<HTMLInputElement>(null);
 
   const computeResults = useCallback(() => {
     if (!params.partnerSecret) {
@@ -65,8 +66,7 @@ const HmacCalculatorPage = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    const newParams = { ...params, [e.target.name]: e.target.value };
-    setParams(newParams);
+    setParams({ ...params, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -126,7 +126,7 @@ curl -X '${params.method}' '<HOST>${params.requestUrl}' \\
               id="method"
               name="method"
               onChange={handleChange}
-              value={params.method}
+              value={params.method || 'POST'}
             >
               <option value="POST">POST</option>
               <option value="GET">GET</option>
@@ -145,7 +145,7 @@ curl -X '${params.method}' '<HOST>${params.requestUrl}' \\
               name="contentType"
               onChange={handleChange}
               type="text"
-              value={params.contentType}
+              value={params.contentType || 'application/json'}
             />
           </div>
         </div>
@@ -155,13 +155,25 @@ curl -X '${params.method}' '<HOST>${params.requestUrl}' \\
           </label>
           <div className="col-sm-8">
             <input
+              ref={headerDateRef}
               className="form-control"
               id="header-date"
               name="headerDate"
               onChange={handleChange}
               type="text"
-              value={params.headerDate}
+              value={params.headerDate || new Date().toUTCString()}
             />
+            <button
+              className="btn btn-link"
+              onClick={() => {
+                if (!headerDateRef.current) {
+                  return;
+                }
+                headerDateRef.current.value = new Date().toUTCString();
+              }}
+            >
+              Set date to now
+            </button>
           </div>
         </div>
         <div className="form-group row">
