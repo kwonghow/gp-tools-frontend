@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js';
+import { Buffer } from 'buffer';
 
 export interface Payload {
   time_since_epoch: number;
@@ -6,16 +7,12 @@ export interface Payload {
 }
 
 const base64UrlEncode = (value: string) =>
-  value
-    .toString()
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_');
+  value.toString().replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 
 export default function generatePopSignature(
   accessToken: string,
   dateUTC: string,
-  clientSecret: string,
+  clientSecret: string
 ) {
   const date = new Date(dateUTC);
 
@@ -23,7 +20,7 @@ export default function generatePopSignature(
   const message = `${timestamp.toString()}${accessToken}`;
 
   const signature = CryptoJS.enc.Base64.stringify(
-    CryptoJS.HmacSHA256(message, clientSecret),
+    CryptoJS.HmacSHA256(message, clientSecret)
   );
 
   const payload: Payload = {
@@ -34,7 +31,7 @@ export default function generatePopSignature(
   const payloadBytes = JSON.stringify(payload);
 
   const popSignature = base64UrlEncode(
-    Buffer.from(payloadBytes).toString('base64'),
+    Buffer.from(payloadBytes).toString('base64')
   );
 
   return { message, payload, popSignature };
