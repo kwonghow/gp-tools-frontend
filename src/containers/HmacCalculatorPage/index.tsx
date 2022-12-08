@@ -55,8 +55,8 @@ const HmacCalculatorPage = () => {
         params.headerDate as string,
         params.requestUrl as string,
         params.requestBody as string,
-        params.partnerSecret as string,
-      ),
+        params.partnerSecret as string
+      )
     );
   }, [params]);
 
@@ -65,7 +65,7 @@ const HmacCalculatorPage = () => {
   }, [computeResults, params]);
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const newParams = { ...params, [e.target.name]: e.target.value };
     setParams(newParams);
@@ -207,7 +207,7 @@ curl -X '${params.method}' '<HOST>${params.requestUrl}' \\
         >
           Calculate HMAC
         </button>
-        {errors.map(error => (
+        {errors.map((error) => (
           <div className="error">{error}</div>
         ))}
         <hr />
@@ -238,7 +238,10 @@ curl -X '${params.method}' '<HOST>${params.requestUrl}' \\
         <h3>
           CURL{' '}
           <CopyToClipboard onCopy={handleCopyClick} text={curlCommand}>
-            <button className="btn btn-link" onClick={e => e.preventDefault()}>
+            <button
+              className="btn btn-link"
+              onClick={(e) => e.preventDefault()}
+            >
               {copiedToClipboard ? 'Copied!' : 'Copy to clipboard'}
             </button>
           </CopyToClipboard>
